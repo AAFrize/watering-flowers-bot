@@ -1,0 +1,25 @@
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+*.orig
+*.log
+log.txt
+watering-flowers-bot-domain/target
+watering-flowers-bot-migration/target
+watering-flowers-bot-application/target
+**/git.properties

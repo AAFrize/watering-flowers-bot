@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.4</version> <!-- spring.boot.version -->
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>aa.frieze</groupId>
+    <artifactId>watering-flowers-bot</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+
+    <modules>
+        <module>watering-flowers-bot-domain</module>
+        <module>watering-flowers-bot-migration</module>
+        <module>watering-flowers-bot-application</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <liquibase-maven-plugin.version>3.8.0</liquibase-maven-plugin.version>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring.boot.version>2.7.4</spring.boot.version>
+        <lombok.version>1.18.22</lombok.version>
+        <postgresql.version>42.2.6</postgresql.version>
+        <vladmihalcea.version>2.19.2</vladmihalcea.version>
+        <telegram.version>6.1.0</telegram.version>
+        <vdurmont.version>5.1.1</vdurmont.version>
+    </properties>
+
+        <dependencies>
+            <!--Spring-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-json</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--Postgres-->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vladmihalcea</groupId>
+                <artifactId>hibernate-types-52</artifactId>
+                <version>${vladmihalcea.version}</version>
+            </dependency>
+
+            <!-- TelegramBot -->
+            <dependency>
+                <groupId>org.telegram</groupId>
+                <artifactId>telegrambots</artifactId>
+                <version>${telegram.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.telegram</groupId>
+                <artifactId>telegrambotsextensions</artifactId>
+                <version>${telegram.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vdurmont</groupId>
+                <artifactId>emoji-java</artifactId>
+                <version>${vdurmont.version}</version>
+            </dependency>
+        </dependencies>
+
+    <!--   <build>
+           <pluginManagement>
+           </pluginManagement>
+           <plugins>
+               <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-checkstyle-plugin</artifactId>
+                   <version>3.1.0</version>
+                   <configuration>
+                       <configLocation>/config/codestyle_check_config.xml</configLocation>
+                       <encoding>UTF-8</encoding>
+                       <consoleOutput>true</consoleOutput>
+                       <failsOnError>true</failsOnError>
+                       <linkXRef>false</linkXRef>
+                   </configuration>
+                   <executions>
+                       <execution>
+                           <id>validate</id>
+                           <phase>validate</phase>
+                           <goals>
+                               <goal>check</goal>
+                           </goals>
+                       </execution>
+                   </executions>
+               </plugin>
+               <plugin>
+                   <artifactId>maven-surefire-plugin</artifactId>
+                   <version>${maven-surefire-plugin.version}</version>
+                   <configuration>
+                       <properties>
+                           <configurationParameters>
+                               junit.jupiter.execution.parallel.enabled = true
+                           </configurationParameters>
+                       </properties>
+                   </configuration>
+               </plugin>
+           </plugins>
+       </build> -->
+</project>

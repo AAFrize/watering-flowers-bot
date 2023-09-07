@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>watering-flowers-bot</artifactId>
+        <groupId>aa.frieze</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>watering-flowers-bot-migration</artifactId>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+
+    <packaging>pom</packaging>
+
+    <profiles>
+        <!-- миграции -->
+        <profile>
+            <id>migrate-watering-flowers-bot</id>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <version>${liquibase-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <propertyFile>src/main/watering-flowers-bot/liquibase.properties</propertyFile>
+                            <propertyFileWillOverride>false</propertyFileWillOverride>
+                            <driver>org.postgresql.Driver</driver>
+                            <changeLogFile>${db.changeLog}</changeLogFile>
+                            <url>${db.url}</url>
+                            <username>${db.login}</username>
+                            <password>${db.password}</password>
+                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                            <databaseChangeLogTableName>FLOWERSCHANGELOG</databaseChangeLogTableName>
+                            <verbose>true</verbose>
+                            <logging>debug</logging>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+    </profiles>
+</project>
