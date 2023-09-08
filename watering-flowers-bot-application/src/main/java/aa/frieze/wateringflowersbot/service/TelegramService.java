@@ -2,6 +2,6 @@ package aa.frieze.wateringflowersbot.service;
 
 public interface TelegramService {
 
-    void sendMessageEmployee(Long chatId, String text);
+    void sendMessage(Long chatId, String text);
 
 }

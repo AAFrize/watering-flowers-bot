@@ -15,18 +15,18 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TelegramServiceImpl implements TelegramService {
 
-    private final TelegramBotEmployee telegramBotEmployee;
+    private final TelegramBot telegramBot;
 
     private final TelegramAccountRepository telegramAccountRepository;
 
     @Override
-    public void sendMessageEmployee(Long chatId, String text) {
+    public void sendMessage(Long chatId, String text) {
         if (Objects.isNull(chatId)) return;
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
         try {
-            telegramBotEmployee.execute(sendMessage);
+            telegramBot.execute(sendMessage);
         } catch (TelegramApiException e) {
             log.warn("Something went wrong while sending TG message: chatId - {}, message - {}", chatId, text);
         }

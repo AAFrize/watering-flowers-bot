@@ -20,7 +20,7 @@ import javax.annotation.PostConstruct;
 @Getter
 @Service
 @EqualsAndHashCode(callSuper = true)
-public class TelegramBotEmployee extends AbstractTelegramCallbackBot {
+public class TelegramBot extends AbstractTelegramCallbackBot {
 
     @Value("${telegram-bot.name}")
     private String botUsername;
@@ -34,8 +34,8 @@ public class TelegramBotEmployee extends AbstractTelegramCallbackBot {
     private final TelegramAccountRepository telegramAccountRepository;
     private final TelegramFacade facade;
 
-    public TelegramBotEmployee(TelegramFacade facade, TelegramBotsApi api, DataCache dataCache,
-                               TelegramAccountRepository telegramAccountRepository) {
+    public TelegramBot(TelegramFacade facade, TelegramBotsApi api, DataCache dataCache,
+                       TelegramAccountRepository telegramAccountRepository) {
         super(facade);
         this.api = api;
         this.dataCache = dataCache;

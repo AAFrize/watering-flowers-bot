@@ -41,27 +41,7 @@ public class BotStateContext {
     }
 
     private InputMessageHandler findMessageHandler(BotState currentState) {
-/*        if (isWorklogsSearchState(currentState)) {
-            return messageHandlers.get(WorklogSearchAbstractHandler.getStateByName(botName));
-        }*/
         return messageHandlers.get(currentState);
     }
-
-/*    private boolean isWorklogsSearchState(BotState currentState) {
-        switch (currentState) {
-            case WORKLOGS_SEARCH:
-            case WORKLOGS_SEARCH_HOD:
-            case WORKLOGS_SEARCH_EMP:
-            case WORKLOGS_SEARCH_PM:
-            case ASK_DATE:
-            case ASK_DEPARTMENTS:
-            case ASK_PROJECTS:
-            case ASK_INFO:
-            case SHOW_WORKLOGS:
-                return true;
-            default:
-                return false;
-        }
-    }*/
 
 }
