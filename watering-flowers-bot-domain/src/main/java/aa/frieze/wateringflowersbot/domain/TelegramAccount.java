@@ -25,6 +25,8 @@ public class TelegramAccount extends AbstractEntity<Long> {
     @NotNull
     private Long chatId;
 
+    private String username;
+
     @CreationTimestamp
     private ZonedDateTime createdDate;
 
