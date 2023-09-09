@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -46,7 +47,7 @@ public class TelegramBot extends AbstractTelegramCallbackBot {
     @PostConstruct
     private void register() throws TelegramApiException {
         // todo
-        if (botEnabled) {
+        if (BooleanUtils.isTrue(botEnabled)) {
             this.api.registerBot(this);
             register(new StartCommand("start", "Старт", telegramAccountRepository, Constants.START_MESSAGE));
 

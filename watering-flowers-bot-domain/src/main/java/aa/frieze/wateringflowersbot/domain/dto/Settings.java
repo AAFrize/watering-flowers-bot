@@ -2,6 +2,7 @@ package aa.frieze.wateringflowersbot.domain.dto;
 
 import lombok.Data;
 
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -15,5 +16,6 @@ public class Settings {
         private String title;
         private ChronoUnit periodUnit;
         private Long periodValue;
+        private ZonedDateTime firstNotificationDate;
     }
 }

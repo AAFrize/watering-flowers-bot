@@ -10,7 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum BusinessErrorEnum {
 
-    L999("999", "Непредвиденная ошибка");
+    L999("999", "Непредвиденная ошибка"),
+    E001("001", "Указан некорректный период");
 
     private final String code;
     private final String message;

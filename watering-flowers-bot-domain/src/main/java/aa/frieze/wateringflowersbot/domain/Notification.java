@@ -4,23 +4,32 @@ import aa.frieze.wateringflowersbot.domain.common.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldNameConstants;
+import org.apache.commons.lang3.BooleanUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 @Data
 @Entity
+@FieldNameConstants
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Notification extends AbstractEntity<Long> {
 
     @NotNull
     @ManyToOne
+    @JoinColumn(name = Fields.telegramAccountId)
     private TelegramAccount telegramAccount;
+
+    @Column(insertable = false, updatable = false)
+    private Long telegramAccountId;
 
     @NotNull
     private String title;
@@ -37,4 +46,7 @@ public class Notification extends AbstractEntity<Long> {
 
     private ZonedDateTime nextNotificationDate;
 
+    public String getArchivedString() {
+        return BooleanUtils.toString(archived, "активное", "неактивное");
+    }
 }
