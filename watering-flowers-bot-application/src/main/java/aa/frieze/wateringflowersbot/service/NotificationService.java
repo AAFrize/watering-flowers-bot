@@ -9,6 +9,8 @@ public interface NotificationService {
 
     String getNotificationInfo(Notification notification);
 
+    String getActualNotificationInfo(Notification notification);
+
     Notification createOrUpdateNotification(Settings.SettingDto settingDto, Long accountId);
 
 }

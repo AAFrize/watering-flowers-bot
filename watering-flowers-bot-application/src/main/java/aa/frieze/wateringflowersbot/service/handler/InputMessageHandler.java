@@ -8,6 +8,5 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 public interface InputMessageHandler {
     SendMessage handle(Message message, TelegramAccount telegramAccount, AbstractTelegramCallbackBot bot);
-
     BotState getHandlerName();
 }

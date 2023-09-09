@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +25,6 @@ public class UnitParser {
         units.sort(Comparator.comparing(AbstractUnit::getChronoUnit));
         this.units = units;
     }
-
-/*    @PostConstruct
-    public void init() {
-        parsePeriodFromString("2,5 часа 2days");
-    }*/
 
     public Pair<ChronoUnit, Long> parsePeriodFromString(String periodString) {
         List<String> unitList = Arrays.stream(periodString.split("\\d*.?\\d+?"))

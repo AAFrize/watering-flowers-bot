@@ -8,4 +8,8 @@ public interface DataCache {
 
     BotState getUsersCurrentBotState(Long userId);
 
+    void setUsersCurrentTitle(Long userId, String title);
+
+    String getUsersCurrentTitle(Long userId);
+
 }
