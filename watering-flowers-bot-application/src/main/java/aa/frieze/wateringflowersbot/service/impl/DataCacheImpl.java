@@ -4,6 +4,7 @@ import aa.frieze.wateringflowersbot.domain.enumeration.BotState;
 import aa.frieze.wateringflowersbot.service.DataCache;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class DataCacheImpl implements DataCache {
 
     private final Map<Long, BotState> usersBotStates = new HashMap<>();
     private final Map<Long, String> usersTitles = new HashMap<>();
+    private final Map<Long, ZoneId> usersTimeZone = new HashMap<>();
     private final Map<Long, ZonedDateTime> usersStartDate = new HashMap<>();
 
     @Override
@@ -38,6 +40,16 @@ public class DataCacheImpl implements DataCache {
     @Override
     public String getUsersCurrentTitle(Long userId) {
         return usersTitles.get(userId);
+    }
+
+    @Override
+    public void setUsersCurrentZone(Long userId, ZoneId zoneId) {
+        usersTimeZone.put(userId, zoneId);
+    }
+
+    @Override
+    public ZoneId getUsersCurrentZone(Long userId) {
+        return usersTimeZone.get(userId);
     }
 
 }

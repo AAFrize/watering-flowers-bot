@@ -14,6 +14,10 @@ public class Constants {
     public static final String PENSIVE_EMOJI = EmojiParser.parseToUnicode(":pensive:");
     public static final String HMM_EMOJI = EmojiParser.parseToUnicode(":hmm:");
 
+    // buttons
+    public static final String CURRENT_DATE_BUTTON = "Выбрать текущие дату и время, как начало периода";
+    public static final String CUSTOM_DATE_BUTTON = "Ввести другие дату и время, как начало периода";
+
     // messages
     public static final String START_MESSAGE = "Данный бот предназначен для напоминаний пользователю о поливе " +
             "цветов, в память о погибшем кактусе " + PENSIVE_EMOJI + " Так же можно использовать для любых " +
@@ -25,6 +29,11 @@ public class Constants {
             "не так с добавлением этого чата в БД при /start. Пожалуйста, сообщите разработчикам";
     public static final String TITLE_WARNING_MESSAGE = "Название напоминания не должно совпадать с уже существующими.";
     public static final String TITLE_WAITING_MESSAGE = "Введите название напоминания. " + TITLE_WARNING_MESSAGE;
+    public static final String TIMEZONE_WAITING_MESSAGE = "Введите таймзону, в соответствии с которой хотите получать " +
+            "уведомления. Примеры: \"+03:00\", \"GMT+03\", \"EAT\"";
+    public static final String TIMEZONE_WARNING_MESSAGE = "Таймзона введена некорректно. " +
+            "Пожалуйста, попробуйте ещё раз. Примеры: \"+03:00\", \"GMT+03\", \"EAT\"";
+    public static final String START_DATE_CHOOSING_MESSAGE = "Выберите дату начала напоминаний";
     public static final String NOTIFYING_MESSAGE = "%s Настало время %s!\nСледующее уведомление придёт %s\n";
     public static final String NOTIFYING_MESSAGE_END = "\nВы можете отписаться от получения уведомлений в меню " +
             "просмотра уведомлений";

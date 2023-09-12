@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.time.DateTimeException;
+import java.time.ZoneId;
 import java.util.Objects;
 
-import static aa.frieze.wateringflowersbot.service.util.Constants.TITLE_WAITING_MESSAGE;
-import static aa.frieze.wateringflowersbot.service.util.Constants.TITLE_WARNING_MESSAGE;
-import static aa.frieze.wateringflowersbot.service.util.Constants.TRY_AGAIN_MESSAGE;
+import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public abstract class SubscriptionHandler implements InputMessageHandler {
+public class SubscriptionHandler implements InputMessageHandler {
 
     private final DataCache dataCache;
     private final ReplyKeyboardService replyKeyboardService;
@@ -48,6 +48,12 @@ public abstract class SubscriptionHandler implements InputMessageHandler {
         if (BotState.SUBSCRIBE.equals(botState)) {
             return processAskTitle(chatId, replyToUser);
         }
+        if (BotState.WAITING_FOR_TITLE.equals(botState)) {
+            return processReceiveTitleAndAskTimeZone(chatId, replyToUser, inputMsg, telegramAccount);
+        }
+        if (BotState.WAITING_FOR_TIMEZONE.equals(botState)) {
+            return processReceiveTimeZoneAndAskStartDate(chatId, replyToUser, inputMsg);
+        }
         return replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
     }
 
@@ -58,8 +64,8 @@ public abstract class SubscriptionHandler implements InputMessageHandler {
     }
 
     @SneakyThrows
-    private SendMessage processReceiveTitleAndAskStartDate(Long userId, SendMessage replyToUser, Message inputMsg,
-                                                           TelegramAccount telegramAccount) {
+    private SendMessage processReceiveTitleAndAskTimeZone(Long userId, SendMessage replyToUser, Message inputMsg,
+                                                          TelegramAccount telegramAccount) {
         Settings settings = mapper.treeToValue(telegramAccount.getSettings(), Settings.class);
         if (Objects.nonNull(settings) && Objects.nonNull(settings.getSettings())
                 && settings.getSettings().stream()
@@ -69,10 +75,24 @@ public abstract class SubscriptionHandler implements InputMessageHandler {
             return replyToUser;
         }
 
-        dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_TITLE);
+        dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_TIMEZONE);
         dataCache.setUsersCurrentTitle(userId, inputMsg.getText());
-        // todo ask start date
+        replyToUser.setText(TIMEZONE_WAITING_MESSAGE);
         return replyToUser;
+    }
+
+    private SendMessage processReceiveTimeZoneAndAskStartDate(Long userId, SendMessage replyToUser, Message inputMsg) {
+        ZoneId inputZone;
+        try {
+            inputZone = ZoneId.of(inputMsg.getText());
+        } catch (DateTimeException exception) {
+            replyToUser.setText(TIMEZONE_WARNING_MESSAGE);
+            return replyToUser;
+        }
+
+        dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_START_DATE);
+        dataCache.setUsersCurrentZone(userId, inputZone);
+        return replyKeyboardService.getStartDateMessage(userId, START_DATE_CHOOSING_MESSAGE);
     }
 
     @Override

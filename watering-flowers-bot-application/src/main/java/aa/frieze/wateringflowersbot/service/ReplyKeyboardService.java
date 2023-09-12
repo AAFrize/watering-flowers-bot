@@ -6,6 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 public interface ReplyKeyboardService {
     SendMessage getMainMenuMessage(long chatId, String textMessage);
 
+    SendMessage getStartDateMessage(long chatId, String textMessage);
+
     SendMessage createMessageWithKeyboard(long chatId, String textMessage,
                                           ReplyKeyboardMarkup replyKeyboardMarkup);
 }
