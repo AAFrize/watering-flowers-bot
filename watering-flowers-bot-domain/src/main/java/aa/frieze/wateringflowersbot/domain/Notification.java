@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Data
 @Entity
@@ -48,5 +50,16 @@ public class Notification extends AbstractEntity<Long> {
 
     public String getArchivedString() {
         return BooleanUtils.toString(archived, "активное", "неактивное");
+    }
+
+
+    public static Notification  mapNotification(TelegramAccount telegramAccount, Pair<ChronoUnit, Long> unitLongPair,
+                                                ZonedDateTime usersStartDate, String title) {
+        Notification notification = new Notification();
+        notification.setTelegramAccount(telegramAccount);
+        notification.setTitle(title);
+        notification.setLastNotificationDate(usersStartDate);
+        notification.setNextNotificationDate(usersStartDate.plus(unitLongPair.getRight(), unitLongPair.getLeft()));
+        return notification;
     }
 }

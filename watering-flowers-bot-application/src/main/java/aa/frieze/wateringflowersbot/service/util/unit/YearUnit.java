@@ -8,8 +8,8 @@ import java.util.List;
 @Component
 public class YearUnit extends AbstractUnit {
 
-    private static final List<String> unitStrings = List.of("г", "г.", "год", "год.", "лет", "лет.", "y", "y.",
-            "year", "years");
+    private static final List<String> unitStrings = List.of("г", "г.", "год", "год.", "года", "годов",
+            "лет", "лет.", "y", "y.", "year", "years");
 
     public YearUnit() {
         super(unitStrings, "г", ChronoUnit.YEARS);

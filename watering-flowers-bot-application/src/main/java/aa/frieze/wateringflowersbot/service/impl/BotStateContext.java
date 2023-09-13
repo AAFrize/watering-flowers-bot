@@ -34,14 +34,28 @@ public class BotStateContext {
             response.setChatId(message.getChatId());
             response.setText(HANDLER_NOT_FOUND_MESSAGE);
             log.error("Handler not found. Bot state: {}. Input message: {}. Telegram account: {}",
-                currentState, message.getText(), Utils.safeGet(telegramAccount, TelegramAccount::getChatId));
+                    currentState, message.getText(), Utils.safeGet(telegramAccount, TelegramAccount::getChatId));
             return response;
         }
         return currentMessageHandler.handle(message, telegramAccount, bot);
     }
 
     private InputMessageHandler findMessageHandler(BotState currentState) {
+        if (isSubscriptionState(currentState)) {
+            return messageHandlers.get(BotState.SUBSCRIBE);
+        }
         return messageHandlers.get(currentState);
+    }
+
+    private boolean isSubscriptionState(BotState currentState) {
+        return switch (currentState) {
+            case SUBSCRIBE,
+                    WAITING_FOR_TITLE,
+                    WAITING_FOR_TIMEZONE,
+                    WAITING_FOR_START_DATE,
+                    WAITING_FOR_DURATION -> true;
+            default -> false;
+        };
     }
 
 }

@@ -21,5 +21,5 @@ create table if not exists watering_flowers.notifications
     last_notification_date timestamptz,
     next_notification_date timestamptz,
     archived               boolean      not null,
-    telegram_accounts_id   bigint       not null references watering_flowers.telegram_accounts (id)
+    telegram_account_id   bigint       not null references watering_flowers.telegram_accounts (id)
 );

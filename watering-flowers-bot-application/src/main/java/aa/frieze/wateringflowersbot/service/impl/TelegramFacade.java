@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Objects;
 
 import static aa.frieze.wateringflowersbot.service.util.Constants.INCORRECT_TG_ACCOUNT_MESSAGE;
+import static aa.frieze.wateringflowersbot.service.util.Constants.SUBSCRIBE_BUTTON;
 
 
 @Slf4j
@@ -39,23 +40,25 @@ public class TelegramFacade {
         if (message != null && message.hasText()) {
             log.info("New message from User:{}, chatId: {},  with text: {}",
                 message.getFrom().getUserName(), message.getChatId(), message.getText());
-            replyMessage = handleInputMessageEmployee(message, bot);
+            replyMessage = handleInputMessage(message, bot);
+        }
+
+        if (Objects.nonNull(replyMessage)) {
+            replyMessage.enableMarkdown(true);
         }
 
         return replyMessage;
     }
 
-    private SendMessage handleInputMessageEmployee(Message message, AbstractTelegramCallbackBot bot) {
+    private SendMessage handleInputMessage(Message message, AbstractTelegramCallbackBot bot) {
         String inputMsg = message.getText();
         long userId = message.getFrom().getId();
         BotState botState;
         SendMessage replyMessage;
 
         switch (inputMsg) {
-
-            default:
-                botState = userDataCache.getUsersCurrentBotState(userId);
-                break;
+            case SUBSCRIBE_BUTTON -> botState = BotState.SUBSCRIBE;
+            default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
 
         userDataCache.setUsersCurrentBotState(userId, botState);

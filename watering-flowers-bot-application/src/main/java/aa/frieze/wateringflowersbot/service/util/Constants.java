@@ -8,6 +8,7 @@ import java.util.List;
 public class Constants {
 
     public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy' в 'hh:mm");
+    public static final DateTimeFormatter dateFormatterInput = DateTimeFormatter.ofPattern("dd.MM.yyyy' 'hh:mm");
 
     // emoji
     public static final String STOPWATCH_EMOJI = EmojiParser.parseToUnicode(":stopwatch:");
@@ -15,6 +16,7 @@ public class Constants {
     public static final String HMM_EMOJI = EmojiParser.parseToUnicode(":hmm:");
 
     // buttons
+    public static final String SUBSCRIBE_BUTTON = "Создать новое уведомление";
     public static final String CURRENT_DATE_BUTTON = "Выбрать текущие дату и время, как начало периода";
     public static final String CUSTOM_DATE_BUTTON = "Ввести другие дату и время, как начало периода";
 
@@ -22,6 +24,7 @@ public class Constants {
     public static final String START_MESSAGE = "Данный бот предназначен для напоминаний пользователю о поливе " +
             "цветов, в память о погибшем кактусе " + PENSIVE_EMOJI + " Так же можно использовать для любых " +
             "других периодических напоминаний";
+    public static final String MAIN_MENU_MESSAGE = "Воспользуйтесь главным меню";
     public static final String TRY_AGAIN_MESSAGE = "Не получилось обработать запрос" + PENSIVE_EMOJI
             + " Пожалуйста, попробуйте повторить с начала";
     public static final String HANDLER_NOT_FOUND_MESSAGE = "Для заданной команды нет обработчика " + HMM_EMOJI;
@@ -34,6 +37,18 @@ public class Constants {
     public static final String TIMEZONE_WARNING_MESSAGE = "Таймзона введена некорректно. " +
             "Пожалуйста, попробуйте ещё раз. Примеры: \"+03:00\", \"GMT+03\", \"EAT\"";
     public static final String START_DATE_CHOOSING_MESSAGE = "Выберите дату начала напоминаний";
+    public static final String START_DATE_CUSTOM_MESSAGE = "Введите дату начала напоминаний в формате "
+            + dateFormatterInput + "\nНапример: \"10.09.2025 12:00\"";
+    public static final String START_DATE_WARNING_MESSAGE = "Некорректный формат даты. " + START_DATE_CUSTOM_MESSAGE;
+    public static final String START_DATE_ILLEGAL_WARNING_MESSAGE = "Дата первого напоминания не должна быть " +
+            "раньше текущей даты";
+    public static final String DURATION_CUSTOM_MESSAGE = """
+            Ожидаемый формат: число + единица измерения.
+            Примеры: "1d", "1 день", "2нед.", "2нед.", "3 г."
+            __Примечание:"м" и "М" используются для обозначения минут, для месяца следует ввести "мес"__
+            """;
+    public static final String DURATION_WAITING_MESSAGE = "Введите период напоминаний.\n" + DURATION_CUSTOM_MESSAGE;
+    public static final String DURATION_WARNING_MESSAGE = "Некорректный формат." + DURATION_CUSTOM_MESSAGE;
     public static final String NOTIFYING_MESSAGE = "%s Настало время %s!\nСледующее уведомление придёт %s\n";
     public static final String NOTIFYING_MESSAGE_END = "\nВы можете отписаться от получения уведомлений в меню " +
             "просмотра уведомлений";
@@ -47,6 +62,8 @@ public class Constants {
             *%s*:
             Время последнего напоминания: %s
             Время запланированного напоминания: %s""";
+
+    public static final String NEW_NOTIFICATION_INFO = "Уведомление успешно создано:\n" + ACTUAL_NOTIFICATION_INFO;
 
 }
 

@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZoneIdSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import aa.frieze.wateringflowersbot.error.AppException;
@@ -17,6 +19,7 @@ import aa.frieze.wateringflowersbot.service.util.converter.ZonedAsLocalDateTimeD
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -41,6 +44,8 @@ public class JsonMappingImpl implements JsonMappingService {
         var zone = ZonedDateTime.now().getZone();
         var timeModule = new SimpleModule();
         timeModule.addSerializer(LocalDateTime.class, new LocalAsZonedDateTimeSerializer(zone));
+        timeModule.addSerializer(ZonedDateTime.class, new ZonedDateTimeSerializer(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+        timeModule.addSerializer(ZoneId.class, new ZoneIdSerializer());
         timeModule.addSerializer(new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
         timeModule.addDeserializer(LocalDateTime.class, new ZonedAsLocalDateTimeDeserializer());
         timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));

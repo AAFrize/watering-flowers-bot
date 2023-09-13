@@ -11,8 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-import static aa.frieze.wateringflowersbot.service.util.Constants.CURRENT_DATE_BUTTON;
-import static aa.frieze.wateringflowersbot.service.util.Constants.CUSTOM_DATE_BUTTON;
+import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
 /**
  * Управляет отображением главного меню в чате.
@@ -43,8 +42,10 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
-
         KeyboardRow row1 = new KeyboardRow();
+        KeyboardButton button = KeyboardButton.builder().text(SUBSCRIBE_BUTTON).build();
+
+        row1.add(button);
         keyboard.add(row1);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

@@ -23,6 +23,11 @@ public class DataCacheImpl implements DataCache {
     }
 
     @Override
+    public void clearUsersCurrentBotState(Long userId) {
+        usersBotStates.remove(userId);
+    }
+
+    @Override
     public BotState getUsersCurrentBotState(Long userId) {
         BotState botState = usersBotStates.get(userId);
         if (botState == null) {
@@ -39,7 +44,7 @@ public class DataCacheImpl implements DataCache {
 
     @Override
     public String getUsersCurrentTitle(Long userId) {
-        return usersTitles.get(userId);
+        return usersTitles.remove(userId);
     }
 
     @Override
@@ -50,6 +55,21 @@ public class DataCacheImpl implements DataCache {
     @Override
     public ZoneId getUsersCurrentZone(Long userId) {
         return usersTimeZone.get(userId);
+    }
+
+    @Override
+    public void clearUsersCurrentZone(Long userId) {
+        usersTimeZone.remove(userId);
+    }
+
+    @Override
+    public void setUsersStartDate(Long userId, ZonedDateTime dateTime) {
+        usersStartDate.put(userId, dateTime);
+    }
+
+    @Override
+    public ZonedDateTime getUsersStartDate(Long userId) {
+        return usersStartDate.remove(userId);
     }
 
 }
