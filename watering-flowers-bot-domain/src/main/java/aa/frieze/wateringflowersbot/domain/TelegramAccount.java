@@ -13,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
@@ -41,7 +42,7 @@ public class TelegramAccount extends AbstractEntity<Long> {
     @Type(type = "jsonb")
     private JsonNode settings;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "telegramAccount")
     @Where(clause = "archived = false")
     private List<Notification> notifications;
 

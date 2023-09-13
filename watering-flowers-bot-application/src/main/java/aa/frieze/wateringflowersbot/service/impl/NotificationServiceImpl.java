@@ -50,7 +50,8 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepository.save(notification);
 
         return String.format(NOTIFYING_MESSAGE, STOPWATCH_EMOJI, notification.getTitle(),
-                dateFormatter.format(notification.getNextNotificationDate()));
+                dateFormatter.format(notification.getNextNotificationDate()
+                        .withZoneSameInstant(settings.getTimeZone())));
     }
 
     @Override

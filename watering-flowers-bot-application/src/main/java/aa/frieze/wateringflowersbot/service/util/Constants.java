@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Constants {
 
-    public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy' в 'hh:mm");
-    public static final DateTimeFormatter dateFormatterInput = DateTimeFormatter.ofPattern("dd.MM.yyyy' 'hh:mm");
+    public static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy' в 'HH:mm");
+    public static final DateTimeFormatter dateFormatterInput = DateTimeFormatter.ofPattern("dd.MM.yyyy' 'HH:mm");
 
     // emoji
     public static final String STOPWATCH_EMOJI = EmojiParser.parseToUnicode(":stopwatch:");

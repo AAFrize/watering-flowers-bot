@@ -169,8 +169,9 @@ public class SubscriptionHandler implements InputMessageHandler {
 
         dataCache.clearUsersCurrentBotState(userId);
         dataCache.clearUsersCurrentZone(userId);
-        replyToUser.setText(String.format(NEW_NOTIFICATION_INFO, title, dateFormatter.format(usersStartDate),
-                dateFormatter.format(notification.getNextNotificationDate())));
+        replyToUser.setText(String.format(NEW_NOTIFICATION_INFO, title, dateFormatter.format(usersStartDate
+                        .withZoneSameInstant(settings.getTimeZone())), dateFormatter.format(notification
+                .getNextNotificationDate().withZoneSameInstant(settings.getTimeZone()))));
         return replyKeyboardService.getMainMenuMessage(userId, replyToUser.getText());
     }
 
