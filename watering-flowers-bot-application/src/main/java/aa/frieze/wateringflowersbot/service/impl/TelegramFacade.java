@@ -13,8 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Objects;
 
-import static aa.frieze.wateringflowersbot.service.util.Constants.INCORRECT_TG_ACCOUNT_MESSAGE;
-import static aa.frieze.wateringflowersbot.service.util.Constants.SUBSCRIBE_BUTTON;
+import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
 
 @Slf4j
@@ -58,6 +57,9 @@ public class TelegramFacade {
 
         switch (inputMsg) {
             case SUBSCRIBE_BUTTON -> botState = BotState.SUBSCRIBE;
+            case UNSUBSCRIBE_BUTTON -> botState = BotState.UNSUBSCRIBE;
+            case UNSUBSCRIBE_ALL_BUTTON -> botState = BotState.UNSUBSCRIBE_ALL;
+            case UNSUBSCRIBE_CUSTOM_BUTTON -> botState = BotState.UNSUBSCRIBE_CUSTOM;
             default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
 

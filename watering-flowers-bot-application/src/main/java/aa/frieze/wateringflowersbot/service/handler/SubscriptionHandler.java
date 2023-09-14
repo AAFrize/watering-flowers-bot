@@ -164,7 +164,9 @@ public class SubscriptionHandler implements InputMessageHandler {
         telegramAccount.setSubscribed(true);
         accountRepository.save(telegramAccount);
 
-        Notification notification = Notification.mapNotification(telegramAccount, unitLongPair, usersStartDate, title);
+        Notification notification = Notification.mapNotification(notificationRepository
+                .findByTitleAndTelegramAccountId(title, telegramAccount.getId()).orElse(new Notification()),
+                telegramAccount, unitLongPair, usersStartDate, title, Boolean.FALSE);
         notificationRepository.save(notification);
 
         dataCache.clearUsersCurrentBotState(userId);
@@ -176,7 +178,8 @@ public class SubscriptionHandler implements InputMessageHandler {
     }
 
 
-    private void saveUserStartDate(Long userId, SendMessage replyToUser, ZonedDateTime startDate, String startDateString) {
+    private void saveUserStartDate(Long userId, SendMessage replyToUser, ZonedDateTime startDate,
+                                   String startDateString) {
         if (Objects.isNull(startDate) && Objects.nonNull(startDateString)) {
             startDate = getZonedDateTimeAndCheck(userId, replyToUser, startDateString);
         }

@@ -11,6 +11,4 @@ public interface NotificationService {
 
     String getActualNotificationInfo(Notification notification);
 
-    Notification createOrUpdateNotification(Settings.SettingDto settingDto, Long accountId);
-
 }

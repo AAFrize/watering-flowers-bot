@@ -44,6 +44,9 @@ public class BotStateContext {
         if (isSubscriptionState(currentState)) {
             return messageHandlers.get(BotState.SUBSCRIBE);
         }
+        if (isUnsubscriptionState(currentState)) {
+            return messageHandlers.get(BotState.UNSUBSCRIBE);
+        }
         return messageHandlers.get(currentState);
     }
 
@@ -54,6 +57,15 @@ public class BotStateContext {
                     WAITING_FOR_TIMEZONE,
                     WAITING_FOR_START_DATE,
                     WAITING_FOR_DURATION -> true;
+            default -> false;
+        };
+    }
+
+    private boolean isUnsubscriptionState(BotState currentState) {
+        return switch (currentState) {
+            case UNSUBSCRIBE,
+                    UNSUBSCRIBE_ALL,
+                    UNSUBSCRIBE_CUSTOM -> true;
             default -> false;
         };
     }

@@ -34,6 +34,13 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
         return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
     }
 
+    @Override
+    public SendMessage getUnsubscribeMenuMessage(long chatId, String textMessage) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = getUnsubscriptionKeyboard();
+
+        return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
+    }
+
     private ReplyKeyboardMarkup getMainMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -43,9 +50,11 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
-        KeyboardButton button = KeyboardButton.builder().text(SUBSCRIBE_BUTTON).build();
+        KeyboardButton button1 = KeyboardButton.builder().text(SUBSCRIBE_BUTTON).build();
+        KeyboardButton button2 = KeyboardButton.builder().text(UNSUBSCRIBE_BUTTON).build();
 
-        row1.add(button);
+        row1.add(button1);
+        row1.add(button2);
         keyboard.add(row1);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
@@ -62,6 +71,24 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
 
         KeyboardButton button1 = KeyboardButton.builder().text(CURRENT_DATE_BUTTON).build();
         KeyboardButton button2 = KeyboardButton.builder().text(CUSTOM_DATE_BUTTON).build();
+        KeyboardRow row1 = new KeyboardRow();
+        row1.addAll(List.of(button1, button2));
+        keyboard.add(row1);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        return replyKeyboardMarkup;
+    }
+
+    private ReplyKeyboardMarkup getUnsubscriptionKeyboard() {
+
+        final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        KeyboardButton button1 = KeyboardButton.builder().text(UNSUBSCRIBE_ALL_BUTTON).build();
+        KeyboardButton button2 = KeyboardButton.builder().text(UNSUBSCRIBE_CUSTOM_BUTTON).build();
         KeyboardRow row1 = new KeyboardRow();
         row1.addAll(List.of(button1, button2));
         keyboard.add(row1);

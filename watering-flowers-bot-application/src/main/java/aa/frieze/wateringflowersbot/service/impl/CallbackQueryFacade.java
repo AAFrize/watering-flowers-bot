@@ -13,8 +13,7 @@ import static aa.frieze.wateringflowersbot.service.util.Constants.HANDLER_NOT_FO
 
 @Service
 public class CallbackQueryFacade {
-    private List<CallbackQueryHandler> callbackQueryHandlers;
-    // private final List<CallbackQueryType> statusType = List.of();
+    private final List<CallbackQueryHandler> callbackQueryHandlers;
 
     public CallbackQueryFacade(List<CallbackQueryHandler> callbackQueryHandlers) {
         this.callbackQueryHandlers = callbackQueryHandlers;
@@ -23,8 +22,9 @@ public class CallbackQueryFacade {
     public SendMessage processCallbackQuery(CallbackQuery usersQuery) {
         CallbackQueryType usersQueryType = CallbackQueryType.valueOf(usersQuery.getData());
 
-        Optional<CallbackQueryHandler> queryHandler = callbackQueryHandlers.stream().
-            filter(callbackQuery -> callbackQuery.getHandlerQueryType().equals(usersQueryType)).findFirst();
+        Optional<CallbackQueryHandler> queryHandler = callbackQueryHandlers.stream()
+                .filter(callbackQuery -> callbackQuery.getHandlerQueryType().equals(usersQueryType))
+                .findFirst();
 
         return queryHandler.map(handler -> handler.handleCallbackQuery(usersQuery))
             .orElse(new SendMessage(usersQuery.getMessage().getChatId().toString(), HANDLER_NOT_FOUND_MESSAGE));

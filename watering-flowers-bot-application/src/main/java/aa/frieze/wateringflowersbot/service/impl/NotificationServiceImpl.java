@@ -68,8 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
                 dateFormatter.format(notification.getNextNotificationDate()));
     }
 
-    @Override
-    @Transactional
+/*    @Transactional
     public Notification createOrUpdateNotification(Settings.SettingDto settingDto, Long accountId) {
         Notification notification = notificationRepository
                 .findByTitleAndTelegramAccountId(settingDto.getTitle(), accountId)
@@ -84,8 +83,9 @@ public class NotificationServiceImpl implements NotificationService {
                 settingDto.getPeriodUnit());
 
         notification.setTitle(settingDto.getTitle());
+        notification.setArchived(false);
         notification.setLastNotificationDate(lastDate);
         notification.setNextNotificationDate(nextDate);
         return notificationRepository.save(notification);
-    }
+    }*/
 }

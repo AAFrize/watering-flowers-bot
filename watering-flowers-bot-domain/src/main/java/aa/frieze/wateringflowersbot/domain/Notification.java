@@ -54,11 +54,18 @@ public class Notification extends AbstractEntity<Long> {
 
 
     public static Notification  mapNotification(TelegramAccount telegramAccount, Pair<ChronoUnit, Long> unitLongPair,
-                                                ZonedDateTime usersStartDate, String title) {
+                                                ZonedDateTime usersStartDate, String title, boolean archived) {
         Notification notification = new Notification();
+        return mapNotification(notification, telegramAccount, unitLongPair, usersStartDate, title, archived);
+    }
+
+    public static Notification  mapNotification(Notification notification, TelegramAccount telegramAccount,
+                                                Pair<ChronoUnit, Long> unitLongPair, ZonedDateTime usersStartDate,
+                                                String title, boolean archived) {
         notification.setTelegramAccount(telegramAccount);
         notification.setTitle(title);
         notification.setLastNotificationDate(usersStartDate);
+        notification.setArchived(archived);
         notification.setNextNotificationDate(usersStartDate.plus(unitLongPair.getRight(), unitLongPair.getLeft()));
         return notification;
     }
