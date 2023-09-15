@@ -50,7 +50,7 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
 
     private ReplyKeyboardMarkup getMainMenuKeyboard() {
         return getKeyboardWithOneButtonsInRow(List.of(SUBSCRIBE_BUTTON, UNSUBSCRIBE_BUTTON,
-                VIEW_INFO_BUTTON));
+                VIEW_INFO_BUTTON, CHANGE_TIMEZONE_BUTTON));
     }
 
     private ReplyKeyboardMarkup getStartDateReceiveKeyboard() {

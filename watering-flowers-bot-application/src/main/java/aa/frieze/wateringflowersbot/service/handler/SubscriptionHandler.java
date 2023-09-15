@@ -104,8 +104,9 @@ public class SubscriptionHandler implements InputMessageHandler {
         }
         if (Objects.nonNull(settings) && Objects.nonNull(settings.getTimeZone())) {
             dataCache.setUsersCurrentZone(userId, settings.getTimeZone());
+            dataCache.setUsersCurrentTitle(userId, inputMsg.getText());
             dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_START_DATE);
-            replyKeyboardService.getStartDateMessage(userId, START_DATE_CHOOSING_MESSAGE);
+            return replyKeyboardService.getStartDateMessage(userId, START_DATE_CHOOSING_MESSAGE);
         }
         dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_TIMEZONE);
         dataCache.setUsersCurrentTitle(userId, inputMsg.getText());

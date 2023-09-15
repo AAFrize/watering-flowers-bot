@@ -24,13 +24,12 @@ public class Constants {
     public static final String SUBSCRIBE_BUTTON = "Создать новое уведомление";
     public static final String UNSUBSCRIBE_BUTTON = "Отписаться от рассылки уведомлений";
     public static final String VIEW_INFO_BUTTON = "Просмотр уведомлений";
+    public static final String CHANGE_TIMEZONE_BUTTON = "Изменить таймзону";
     public static final String UNSUBSCRIBE_ALL_BUTTON = "Отписаться от всех уведомлений";
     public static final String UNSUBSCRIBE_CUSTOM_BUTTON = "Выбрать уведомления для отписки";
     public static final String UNSUBSCRIBE_ONE_BUTTON = "Отписаться";
     public static final String VIEW_ACTUAL_INFO_BUTTON = "Просмотр активных уведомлений";
     public static final String VIEW_ALL_INFO_BUTTON = "Просмотр всех уведомлений";
-    public static final String SUBSCRIPTION_ACTIVE_VIEW_BUTTON = "Просмотр активных уведомлений";
-    public static final String SUBSCRIPTION_ALL_VIEW_BUTTON = "Просмотр всех уведомлений";
     public static final String CURRENT_DATE_BUTTON = "Выбрать текущие дату и время, как начало периода";
     public static final String CUSTOM_DATE_BUTTON = "Ввести другие дату и время, как начало периода";
 
@@ -68,8 +67,7 @@ public class Constants {
     public static final String DURATION_WAITING_MESSAGE = "Введите период напоминаний.\n" + DURATION_CUSTOM_MESSAGE;
     public static final String DURATION_WARNING_MESSAGE = "Некорректный формат." + DURATION_CUSTOM_MESSAGE;
     public static final String NOTIFYING_MESSAGE = "%s Настало время %s!\nСледующее уведомление придёт %s\n";
-    public static final String NOTIFYING_MESSAGE_END = "\nВы можете отписаться от получения уведомлений в меню " +
-                                                       "просмотра уведомлений";
+    public static final String NOTIFYING_MESSAGE_END = "\nВы можете отписаться от получения уведомлений в главном меню";
 
     public static final String ACTUAL_NOTIFICATIONS_NOT_FOUND_MESSAGE = "Активных подписок не найдено";
     public static final String NOTIFICATIONS_NOT_FOUND_MESSAGE = "Подписок не найдено";
