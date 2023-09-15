@@ -54,11 +54,10 @@ public class SubscriptionHandler implements InputMessageHandler {
         if (BotState.SHOW_MAIN_MENU.equals(dataCache.getUsersCurrentBotState(message.getFrom().getId()))) {
             dataCache.setUsersCurrentBotState(message.getFrom().getId(), BotState.SUBSCRIBE);
         }
-        return processUsersInput(message, bot, telegramAccount);
+        return processUsersInput(message, telegramAccount);
     }
 
-    private SendMessage processUsersInput(Message inputMsg, AbstractTelegramCallbackBot bot,
-                                          TelegramAccount telegramAccount) {
+    private SendMessage processUsersInput(Message inputMsg, TelegramAccount telegramAccount) {
         Long userId = inputMsg.getFrom().getId();
         Long chatId = inputMsg.getChatId();
         SendMessage replyToUser = new SendMessage(String.valueOf(chatId), TRY_AGAIN_MESSAGE);
@@ -171,9 +170,11 @@ public class SubscriptionHandler implements InputMessageHandler {
 
         dataCache.clearUsersCurrentBotState(userId);
         dataCache.clearUsersCurrentZone(userId);
-        replyToUser.setText(String.format(NEW_NOTIFICATION_INFO, title, dateFormatter.format(usersStartDate
-                        .withZoneSameInstant(settings.getTimeZone())), dateFormatter.format(notification
-                .getNextNotificationDate().withZoneSameInstant(settings.getTimeZone()))));
+        replyToUser.setText(String.format(NEW_NOTIFICATION_INFO, title,
+                Objects.isNull(notification.getLastNotificationDate()) ? "-" :
+                        dateFormatter.format(usersStartDate.withZoneSameInstant(settings.getTimeZone())),
+                dateFormatter.format(notification.getNextNotificationDate()
+                        .withZoneSameInstant(settings.getTimeZone()))));
         return replyKeyboardService.getMainMenuMessage(userId, replyToUser.getText());
     }
 
@@ -193,7 +194,7 @@ public class SubscriptionHandler implements InputMessageHandler {
 
     private ZonedDateTime getZonedDateTimeAndCheck(Long userId, SendMessage replyToUser, String startDateString) {
         try {
-            LocalDateTime startDateLocal = LocalDateTime.from(dateFormatter.parse(startDateString));
+            LocalDateTime startDateLocal = LocalDateTime.from(dateFormatterInput.parse(startDateString));
             ZonedDateTime startDate = ZonedDateTime.of(startDateLocal, dataCache.getUsersCurrentZone(userId));
             Preconditions.checkState(ZonedDateTime.now().isBefore(startDate));
             return startDate;

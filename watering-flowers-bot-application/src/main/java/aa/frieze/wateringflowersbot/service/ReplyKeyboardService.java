@@ -8,6 +8,8 @@ public interface ReplyKeyboardService {
 
     SendMessage getUnsubscribeMenuMessage(long chatId, String textMessage);
 
+    SendMessage getViewMenuMessage(long chatId, String textMessage);
+
     SendMessage getStartDateMessage(long chatId, String textMessage);
 
     SendMessage createMessageWithKeyboard(long chatId, String textMessage,

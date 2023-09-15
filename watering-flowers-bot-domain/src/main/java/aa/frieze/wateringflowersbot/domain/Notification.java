@@ -49,7 +49,7 @@ public class Notification extends AbstractEntity<Long> {
     private ZonedDateTime nextNotificationDate;
 
     public String getArchivedString() {
-        return BooleanUtils.toString(archived, "активное", "неактивное");
+        return BooleanUtils.toString(!archived, "активное", "неактивное");
     }
 
 
@@ -64,9 +64,10 @@ public class Notification extends AbstractEntity<Long> {
                                                 String title, boolean archived) {
         notification.setTelegramAccount(telegramAccount);
         notification.setTitle(title);
-        notification.setLastNotificationDate(usersStartDate);
+        notification.setLastNotificationDate(usersStartDate.isAfter(ZonedDateTime.now()) ? null : usersStartDate);
         notification.setArchived(archived);
-        notification.setNextNotificationDate(usersStartDate.plus(unitLongPair.getRight(), unitLongPair.getLeft()));
+        notification.setNextNotificationDate(usersStartDate.isAfter(ZonedDateTime.now()) ? usersStartDate
+                : usersStartDate.plus(unitLongPair.getRight(), unitLongPair.getLeft()));
         return notification;
     }
 }

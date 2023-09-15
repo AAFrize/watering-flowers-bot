@@ -47,6 +47,9 @@ public class BotStateContext {
         if (isUnsubscriptionState(currentState)) {
             return messageHandlers.get(BotState.UNSUBSCRIBE);
         }
+        if (isViewState(currentState)) {
+            return messageHandlers.get(BotState.VIEW);
+        }
         return messageHandlers.get(currentState);
     }
 
@@ -66,6 +69,15 @@ public class BotStateContext {
             case UNSUBSCRIBE,
                     UNSUBSCRIBE_ALL,
                     UNSUBSCRIBE_CUSTOM -> true;
+            default -> false;
+        };
+    }
+
+    private boolean isViewState(BotState currentState) {
+        return switch (currentState) {
+            case VIEW,
+                    VIEW_ALL,
+                    VIEW_ACTUAL -> true;
             default -> false;
         };
     }

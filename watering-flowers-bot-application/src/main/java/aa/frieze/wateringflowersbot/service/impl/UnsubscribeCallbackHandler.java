@@ -8,7 +8,6 @@ import aa.frieze.wateringflowersbot.error.BusinessErrorEnum;
 import aa.frieze.wateringflowersbot.repository.NotificationRepository;
 import aa.frieze.wateringflowersbot.repository.TelegramAccountRepository;
 import aa.frieze.wateringflowersbot.service.CallbackQueryHandler;
-import aa.frieze.wateringflowersbot.service.DataCache;
 import aa.frieze.wateringflowersbot.service.ReplyKeyboardService;
 import aa.frieze.wateringflowersbot.service.json.JsonMappingService;
 import aa.frieze.wateringflowersbot.service.util.Constants;
@@ -38,7 +37,7 @@ public class UnsubscribeCallbackHandler implements CallbackQueryHandler {
     @Transactional
     public SendMessage handleCallbackQuery(CallbackQuery callbackQuery) {
         String text = callbackQuery.getMessage().getText();
-        String title = text.substring(1, text.indexOf("*", 1));
+        String title = text.substring(text.indexOf("*") + 1, text.indexOf("*:\n"));
         Long chatId = callbackQuery.getMessage().getChatId();
 
         TelegramAccount account = accountRepository.findByChatId(chatId).orElseThrow(BusinessErrorEnum.L999::thr);

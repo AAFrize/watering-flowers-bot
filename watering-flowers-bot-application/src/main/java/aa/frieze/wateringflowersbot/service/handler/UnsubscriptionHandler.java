@@ -5,7 +5,6 @@ import aa.frieze.wateringflowersbot.domain.TelegramAccount;
 import aa.frieze.wateringflowersbot.domain.dto.Settings;
 import aa.frieze.wateringflowersbot.domain.enumeration.BotState;
 import aa.frieze.wateringflowersbot.domain.enumeration.CallbackQueryType;
-import aa.frieze.wateringflowersbot.error.AppException;
 import aa.frieze.wateringflowersbot.repository.NotificationRepository;
 import aa.frieze.wateringflowersbot.repository.TelegramAccountRepository;
 import aa.frieze.wateringflowersbot.service.DataCache;
@@ -13,31 +12,20 @@ import aa.frieze.wateringflowersbot.service.NotificationService;
 import aa.frieze.wateringflowersbot.service.ReplyKeyboardService;
 import aa.frieze.wateringflowersbot.service.impl.AbstractTelegramCallbackBot;
 import aa.frieze.wateringflowersbot.service.json.JsonMappingService;
-import aa.frieze.wateringflowersbot.service.util.UnitParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
@@ -79,7 +67,7 @@ public class UnsubscriptionHandler implements InputMessageHandler {
                 return processUnsubscribeAll(chatId, telegramAccount);
             }
             case UNSUBSCRIBE_CUSTOM -> {
-                return processUnsubscribeCustom(chatId, telegramAccount, bot, inputMsg);
+                return processUnsubscribeCustom(chatId, telegramAccount, bot);
             }
             default -> {
                 return replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
@@ -110,7 +98,7 @@ public class UnsubscriptionHandler implements InputMessageHandler {
     }
 
     protected SendMessage processUnsubscribeCustom(Long chatId, TelegramAccount telegramAccount,
-                                                   AbstractTelegramCallbackBot bot, Message inputMsg) {
+                                                   AbstractTelegramCallbackBot bot) {
         List<Notification> notifications = telegramAccount.getNotifications();
         String text = MAIN_MENU_MESSAGE;
         if (CollectionUtils.isEmpty(notifications)) {

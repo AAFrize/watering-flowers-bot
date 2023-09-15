@@ -15,11 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-import static aa.frieze.wateringflowersbot.service.util.Constants.ACTUAL_NOTIFICATION_INFO;
-import static aa.frieze.wateringflowersbot.service.util.Constants.NOTIFICATION_INFO;
-import static aa.frieze.wateringflowersbot.service.util.Constants.NOTIFYING_MESSAGE;
-import static aa.frieze.wateringflowersbot.service.util.Constants.STOPWATCH_EMOJI;
-import static aa.frieze.wateringflowersbot.service.util.Constants.dateFormatter;
+import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +52,9 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public String getNotificationInfo(Notification notification) {
-        return String.format(NOTIFICATION_INFO, notification.getTitle(), notification.getArchivedString(),
+        return String.format(NOTIFICATION_INFO, notification.getTitle(), notification.isArchived()
+                        ? STOP_BUTTON_EMOJI : ARROW_FORWARD_EMOJI, notification.getArchivedString(),
+                Objects.isNull(notification.getLastNotificationDate()) ? "-" :
                 dateFormatter.format(notification.getLastNotificationDate()),
                 dateFormatter.format(notification.getNextNotificationDate()));
     }
@@ -64,6 +62,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public String getActualNotificationInfo(Notification notification) {
         return String.format(ACTUAL_NOTIFICATION_INFO, notification.getTitle(),
+                Objects.isNull(notification.getLastNotificationDate()) ? "-" :
                 dateFormatter.format(notification.getLastNotificationDate()),
                 dateFormatter.format(notification.getNextNotificationDate()));
     }

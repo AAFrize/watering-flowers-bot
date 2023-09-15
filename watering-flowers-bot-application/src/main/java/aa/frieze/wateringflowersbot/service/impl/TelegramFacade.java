@@ -6,6 +6,7 @@ import aa.frieze.wateringflowersbot.repository.TelegramAccountRepository;
 import aa.frieze.wateringflowersbot.service.DataCache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -58,8 +59,11 @@ public class TelegramFacade {
         switch (inputMsg) {
             case SUBSCRIBE_BUTTON -> botState = BotState.SUBSCRIBE;
             case UNSUBSCRIBE_BUTTON -> botState = BotState.UNSUBSCRIBE;
+            case VIEW_INFO_BUTTON -> botState = BotState.VIEW;
             case UNSUBSCRIBE_ALL_BUTTON -> botState = BotState.UNSUBSCRIBE_ALL;
             case UNSUBSCRIBE_CUSTOM_BUTTON -> botState = BotState.UNSUBSCRIBE_CUSTOM;
+            case VIEW_ACTUAL_INFO_BUTTON -> botState = BotState.VIEW_ACTUAL;
+            case VIEW_ALL_INFO_BUTTON -> botState = BotState.VIEW_ALL;
             default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
 
