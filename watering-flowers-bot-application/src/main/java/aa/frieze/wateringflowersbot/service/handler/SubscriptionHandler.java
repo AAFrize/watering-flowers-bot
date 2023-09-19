@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,6 @@ import java.util.Optional;
 
 import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SubscriptionHandler implements InputMessageHandler {
@@ -63,26 +61,14 @@ public class SubscriptionHandler implements InputMessageHandler {
         SendMessage replyToUser = new SendMessage(String.valueOf(chatId), TRY_AGAIN_MESSAGE);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
 
-        switch (botState) {
-            case SUBSCRIBE -> {
-                return processAskTitle(chatId, replyToUser);
-            }
-            case WAITING_FOR_TITLE -> {
-                return processReceiveTitleAndAskTimeZone(chatId, replyToUser, inputMsg, telegramAccount);
-            }
-            case WAITING_FOR_TIMEZONE -> {
-                return processReceiveTimeZoneAndAskStartDate(chatId, replyToUser, inputMsg);
-            }
-            case WAITING_FOR_START_DATE -> {
-                return processReceiveStartDateAndAskDuration(chatId, replyToUser, inputMsg);
-            }
-            case WAITING_FOR_DURATION -> {
-                return processReceiveDurationAndComplete(chatId, replyToUser, inputMsg, telegramAccount);
-            }
-            default -> {
-                return replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
-            }
-        }
+        return switch (botState) {
+            case SUBSCRIBE -> processAskTitle(chatId, replyToUser);
+            case WAITING_FOR_TITLE -> processReceiveTitleAndAskTimeZone(chatId, replyToUser, inputMsg, telegramAccount);
+            case WAITING_FOR_TIMEZONE -> processReceiveTimeZoneAndAskStartDate(chatId, replyToUser, inputMsg);
+            case WAITING_FOR_START_DATE -> processReceiveStartDateAndAskDuration(chatId, replyToUser, inputMsg);
+            case WAITING_FOR_DURATION -> processReceiveDurationAndComplete(chatId, replyToUser, inputMsg, telegramAccount);
+            default -> replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
+        };
     }
 
     private SendMessage processAskTitle(Long userId, SendMessage replyToUser) {

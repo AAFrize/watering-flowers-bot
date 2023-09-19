@@ -52,13 +52,17 @@ public class Constants {
     public static final String TIMEZONE_WAITING_MESSAGE = "Введите таймзону, в соответствии с которой хотите получать " +
                                                           "уведомления. Примеры: \"+03:00\", \"GMT+03\", \"EAT\"";
     public static final String TIMEZONE_WARNING_MESSAGE = "Таймзона введена некорректно. " +
-                                                          "Пожалуйста, попробуйте ещё раз. Примеры: \"+03:00\", \"GMT+03\", \"EAT\"";
+                                                          "Пожалуйста, попробуйте ещё раз. Примеры: \"+03:00\", " +
+                                                          "\"GMT+03\", \"EAT\"";
+    public static final String TIMEZONE_CHANGING_SUCCESS_MESSAGE = "Таймзона успешно изменена. Текущее значение: %s";
+
     public static final String START_DATE_CHOOSING_MESSAGE = "Выберите дату начала напоминаний";
     public static final String START_DATE_CUSTOM_MESSAGE = "Введите дату начала напоминаний в формате "
                                                            + dateFormatterInputString + "\nНапример: \"10.09.2025 12:00\"";
     public static final String START_DATE_WARNING_MESSAGE = "Некорректный формат даты. " + START_DATE_CUSTOM_MESSAGE;
     public static final String START_DATE_ILLEGAL_WARNING_MESSAGE = "Дата первого напоминания не должна быть " +
                                                                     "раньше текущей даты";
+
     public static final String DURATION_CUSTOM_MESSAGE = """
             Ожидаемый формат: число + единица измерения.
             Примеры: "1d", "1 день", "2нед.", "2нед.", "3 г."
@@ -66,6 +70,7 @@ public class Constants {
             """;
     public static final String DURATION_WAITING_MESSAGE = "Введите период напоминаний.\n" + DURATION_CUSTOM_MESSAGE;
     public static final String DURATION_WARNING_MESSAGE = "Некорректный формат." + DURATION_CUSTOM_MESSAGE;
+
     public static final String NOTIFYING_MESSAGE = "%s Настало время %s!\nСледующее уведомление придёт %s\n";
     public static final String NOTIFYING_MESSAGE_END = "\nВы можете отписаться от получения уведомлений в главном меню";
 

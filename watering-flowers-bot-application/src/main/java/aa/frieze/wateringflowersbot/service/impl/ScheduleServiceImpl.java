@@ -55,9 +55,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                     .map(notificationService::mapAndUpdateNotification)
                     .filter(Objects::nonNull)
                     .collect(Collectors.joining("\n\n"));
+
             if (StringUtils.isBlank(allNotifyingMessages)) {
                 continue;
             }
+
             telegramService.sendMessage(account.getChatId(), allNotifyingMessages + NOTIFYING_MESSAGE_END);
             log.info("Notification was send to user: {}", account.getUsername());
         }

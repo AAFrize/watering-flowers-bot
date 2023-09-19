@@ -12,16 +12,18 @@ import aa.frieze.wateringflowersbot.service.NotificationService;
 import aa.frieze.wateringflowersbot.service.ReplyKeyboardService;
 import aa.frieze.wateringflowersbot.service.impl.AbstractTelegramCallbackBot;
 import aa.frieze.wateringflowersbot.service.json.JsonMappingService;
+import aa.frieze.wateringflowersbot.service.util.Utils;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,6 @@ import java.util.Objects;
 
 import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UnsubscriptionHandler implements InputMessageHandler {
@@ -59,20 +60,12 @@ public class UnsubscriptionHandler implements InputMessageHandler {
         SendMessage replyToUser = new SendMessage(String.valueOf(chatId), TRY_AGAIN_MESSAGE);
         BotState botState = dataCache.getUsersCurrentBotState(userId);
 
-        switch (botState) {
-            case UNSUBSCRIBE -> {
-                return replyKeyboardService.getUnsubscribeMenuMessage(chatId, UNSUBSCRIPTION_MENU_MESSAGE);
-            }
-            case UNSUBSCRIBE_ALL -> {
-                return processUnsubscribeAll(chatId, telegramAccount);
-            }
-            case UNSUBSCRIBE_CUSTOM -> {
-                return processUnsubscribeCustom(chatId, telegramAccount, bot);
-            }
-            default -> {
-                return replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
-            }
-        }
+        return switch (botState) {
+            case UNSUBSCRIBE -> replyKeyboardService.getUnsubscribeMenuMessage(chatId, UNSUBSCRIPTION_MENU_MESSAGE);
+            case UNSUBSCRIBE_ALL -> processUnsubscribeAll(chatId, telegramAccount);
+            case UNSUBSCRIBE_CUSTOM -> processUnsubscribeCustom(chatId, telegramAccount, bot);
+            default -> replyKeyboardService.getMainMenuMessage(chatId, replyToUser.getText());
+        };
     }
 
     @SneakyThrows
@@ -97,15 +90,21 @@ public class UnsubscriptionHandler implements InputMessageHandler {
         return replyKeyboardService.getMainMenuMessage(chatId, UNSUBSCRIBE_SUCCESS_MESSAGE);
     }
 
+    @SneakyThrows
     protected SendMessage processUnsubscribeCustom(Long chatId, TelegramAccount telegramAccount,
                                                    AbstractTelegramCallbackBot bot) {
         List<Notification> notifications = telegramAccount.getNotifications();
+
         String text = MAIN_MENU_MESSAGE;
         if (CollectionUtils.isEmpty(notifications)) {
             text = NOTIFICATIONS_NOT_FOUND_MESSAGE;
         }
+
+        JsonNode timeZone = Utils.safeGet(telegramAccount.getSettings(), jsonNode -> jsonNode.findValue("timeZone"));
+        ZoneId zoneId = mapper.treeToValue(timeZone, ZoneId.class);
+
         for (Notification notification : notifications) {
-            bot.sendInlineKeyBoardMessage(chatId, notificationService.getActualNotificationInfo(notification),
+            bot.sendInlineKeyBoardMessage(chatId, notificationService.getActualNotificationInfo(notification, zoneId),
                     Map.of(UNSUBSCRIBE_ONE_BUTTON, CallbackQueryType.UNSUBSCRIBE.name()));
         }
 

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -51,40 +52,24 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public String getNotificationInfo(Notification notification) {
+    public String getNotificationInfo(Notification notification, ZoneId zoneId) {
         return String.format(NOTIFICATION_INFO, notification.getTitle(), notification.isArchived()
                         ? STOP_BUTTON_EMOJI : ARROW_FORWARD_EMOJI, notification.getArchivedString(),
                 Objects.isNull(notification.getLastNotificationDate()) ? "-" :
-                dateFormatter.format(notification.getLastNotificationDate()),
-                dateFormatter.format(notification.getNextNotificationDate()));
+                dateFormatter.format(notification.getLastNotificationDate()
+                        .withZoneSameInstant(zoneId)),
+                dateFormatter.format(notification.getNextNotificationDate()
+                        .withZoneSameInstant(zoneId)));
     }
 
     @Override
-    public String getActualNotificationInfo(Notification notification) {
+    public String getActualNotificationInfo(Notification notification, ZoneId zoneId) {
         return String.format(ACTUAL_NOTIFICATION_INFO, notification.getTitle(),
                 Objects.isNull(notification.getLastNotificationDate()) ? "-" :
-                dateFormatter.format(notification.getLastNotificationDate()),
-                dateFormatter.format(notification.getNextNotificationDate()));
+                dateFormatter.format(notification.getLastNotificationDate()
+                        .withZoneSameInstant(zoneId)),
+                dateFormatter.format(notification.getNextNotificationDate()
+                        .withZoneSameInstant(zoneId)));
     }
 
-/*    @Transactional
-    public Notification createOrUpdateNotification(Settings.SettingDto settingDto, Long accountId) {
-        Notification notification = notificationRepository
-                .findByTitleAndTelegramAccountId(settingDto.getTitle(), accountId)
-                .orElseGet(Notification::new);
-
-        ZonedDateTime lastDate = notification.getLastNotificationDate();
-        lastDate = Objects.nonNull(lastDate) ? lastDate : settingDto.getFirstNotificationDate();
-        lastDate = Objects.nonNull(lastDate) ? lastDate : ZonedDateTime.now();
-
-        ZonedDateTime nextDate = notification.getNextNotificationDate();
-        nextDate = Objects.nonNull(nextDate) ? nextDate : lastDate.plus(settingDto.getPeriodValue(),
-                settingDto.getPeriodUnit());
-
-        notification.setTitle(settingDto.getTitle());
-        notification.setArchived(false);
-        notification.setLastNotificationDate(lastDate);
-        notification.setNextNotificationDate(nextDate);
-        return notificationRepository.save(notification);
-    }*/
 }

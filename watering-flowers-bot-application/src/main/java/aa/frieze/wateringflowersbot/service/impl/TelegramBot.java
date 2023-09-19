@@ -49,8 +49,9 @@ public class TelegramBot extends AbstractTelegramCallbackBot {
         // todo
         if (BooleanUtils.isTrue(botEnabled)) {
             this.api.registerBot(this);
-            register(new StartCommand("start", "Старт", telegramAccountRepository, Constants.START_MESSAGE));
-
+            register(new StartCommand("start", "Старт", telegramAccountRepository,
+                    Constants.START_MESSAGE));
+            log.info("Bot is registered");
         }
     }
 

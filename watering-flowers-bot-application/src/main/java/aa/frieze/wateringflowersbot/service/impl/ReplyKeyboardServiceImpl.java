@@ -14,7 +14,7 @@ import java.util.List;
 import static aa.frieze.wateringflowersbot.service.util.Constants.*;
 
 /**
- * Управляет отображением главного меню в чате.
+ * Управляет отображением меню в чате.
  */
 @Service
 @RequiredArgsConstructor
