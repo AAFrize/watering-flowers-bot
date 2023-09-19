@@ -35,7 +35,8 @@ public class Constants {
 
     // messages
     public static final String START_MESSAGE = "Данный бот предназначен для напоминаний пользователю о поливе " +
-                                               "цветов, в память о погибшем кактусе " + PENSIVE_EMOJI + " Так же можно использовать для любых " +
+                                               "цветов, в память о погибшем кактусе " + PENSIVE_EMOJI +
+                                               " Так же можно использовать для любых " +
                                                "других периодических напоминаний";
     public static final String MAIN_MENU_MESSAGE = "Воспользуйтесь главным меню";
     public static final String UNSUBSCRIPTION_MENU_MESSAGE = "От каких уведомлений вы хотите отписаться?";
@@ -45,7 +46,8 @@ public class Constants {
                                                    + " Пожалуйста, попробуйте повторить с начала";
     public static final String HANDLER_NOT_FOUND_MESSAGE = "Для заданной команды нет обработчика " + HMM_EMOJI;
     public static final String INCORRECT_TG_ACCOUNT_MESSAGE = "Если вы видите это сообщение, значит, что-то пошло " +
-                                                              "не так с добавлением этого чата в БД при /start. Пожалуйста, сообщите разработчикам";
+                                                              "не так с добавлением этого чата в БД при /start. " +
+                                                              "Пожалуйста, сообщите разработчикам";
 
     public static final String TITLE_WARNING_MESSAGE = "Название напоминания не должно совпадать с уже существующими.";
     public static final String TITLE_WAITING_MESSAGE = "Введите название напоминания. " + TITLE_WARNING_MESSAGE;

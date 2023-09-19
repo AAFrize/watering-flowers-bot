@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
+import static aa.frieze.wateringflowersbot.service.util.Constants.NOTIFICATION_INFO;
+
 @Service
 @RequiredArgsConstructor
 public class UnsubscribeCallbackHandler implements CallbackQueryHandler {
@@ -37,6 +39,7 @@ public class UnsubscribeCallbackHandler implements CallbackQueryHandler {
     @Transactional
     public SendMessage handleCallbackQuery(CallbackQuery callbackQuery) {
         String text = callbackQuery.getMessage().getText();
+        // fixme mb if title contains this chars
         String title = text.substring(text.indexOf("*") + 1, text.indexOf("*:\n"));
         Long chatId = callbackQuery.getMessage().getChatId();
 
