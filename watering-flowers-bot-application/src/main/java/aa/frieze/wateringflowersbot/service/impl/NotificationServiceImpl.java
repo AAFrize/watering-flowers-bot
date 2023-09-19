@@ -1,6 +1,7 @@
 package aa.frieze.wateringflowersbot.service.impl;
 
 import aa.frieze.wateringflowersbot.domain.Notification;
+import aa.frieze.wateringflowersbot.domain.TelegramAccount;
 import aa.frieze.wateringflowersbot.domain.dto.Settings;
 import aa.frieze.wateringflowersbot.repository.NotificationRepository;
 import aa.frieze.wateringflowersbot.service.NotificationService;
@@ -28,8 +29,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @SneakyThrows
     @Transactional
-    public String mapAndUpdateNotification(Notification notification) {
-        JsonNode settingsNode = notification.getTelegramAccount().getSettings();
+    public String mapAndUpdateNotification(Notification notification, TelegramAccount account) {
+        JsonNode settingsNode = account.getSettings();
         if (Objects.isNull(settingsNode)) {
             return null;
         }

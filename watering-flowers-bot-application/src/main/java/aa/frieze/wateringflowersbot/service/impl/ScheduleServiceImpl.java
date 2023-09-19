@@ -52,7 +52,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             String allNotifyingMessages = account.getNotifications().stream()
                     .filter(notification ->
                             !ZonedDateTime.now().isBefore(notification.getNextNotificationDate()))
-                    .map(notificationService::mapAndUpdateNotification)
+                    .map(notification -> notificationService.mapAndUpdateNotification(notification, account))
                     .filter(Objects::nonNull)
                     .collect(Collectors.joining("\n\n"));
 

@@ -1,6 +1,7 @@
 package aa.frieze.wateringflowersbot.repository;
 
 import aa.frieze.wateringflowersbot.domain.TelegramAccount;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
@@ -12,5 +13,6 @@ public interface TelegramAccountRepository extends RepositoryHibernate<TelegramA
 
     Optional<TelegramAccount> findByChatId(@NotNull Long chatId);
 
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = "notifications")
     List<TelegramAccount> findAllBySubscribedTrue();
 }
