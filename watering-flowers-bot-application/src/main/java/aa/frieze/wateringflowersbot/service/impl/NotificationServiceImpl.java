@@ -42,8 +42,11 @@ public class NotificationServiceImpl implements NotificationService {
             return null;
         }
 
-        notification.setNextNotificationDate(ZonedDateTime.now().plus(settingDto.getPeriodValue(),
-                settingDto.getPeriodUnit()));
+        ZonedDateTime nextNotificationDate = Objects.isNull(notification.getNextNotificationDate())
+                ? ZonedDateTime.now().plus(settingDto.getPeriodValue(), settingDto.getPeriodUnit())
+                : notification.getLastNotificationDate().plus(settingDto.getPeriodValue(), settingDto.getPeriodUnit());
+        
+        notification.setNextNotificationDate(nextNotificationDate);
         notification.setLastNotificationDate(ZonedDateTime.now());
         notificationRepository.save(notification);
 
