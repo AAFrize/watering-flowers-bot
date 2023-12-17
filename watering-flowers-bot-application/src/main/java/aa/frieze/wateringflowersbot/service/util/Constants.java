@@ -21,13 +21,18 @@ public class Constants {
     public static final String STOP_BUTTON_EMOJI = EmojiParser.parseToUnicode("⏹");
 
     // buttons
+    public static final String MAIN_MENU_BUTTON = "В главное меню";
     public static final String SUBSCRIBE_BUTTON = "Создать новое уведомление";
     public static final String UNSUBSCRIBE_BUTTON = "Отписаться от рассылки уведомлений";
     public static final String VIEW_INFO_BUTTON = "Просмотр уведомлений";
     public static final String CHANGE_TIMEZONE_BUTTON = "Изменить таймзону";
+    public static final String CHANGE_NOTIFICATION_BUTTON = "Изменить уведомление";
     public static final String UNSUBSCRIBE_ALL_BUTTON = "Отписаться от всех уведомлений";
     public static final String UNSUBSCRIBE_CUSTOM_BUTTON = "Выбрать уведомления для отписки";
     public static final String UNSUBSCRIBE_ONE_BUTTON = "Отписаться";
+    public static final String CHANGE_TITLE_BUTTON = "Изменить название";
+    public static final String CHANGE_NEXT_NOTE_DATE_BUTTON = "Изменить время следующего напоминания";
+    public static final String CHANGE_DURATION_BUTTON = "Изменить период напоминаний";
     public static final String VIEW_ACTUAL_INFO_BUTTON = "Просмотр активных уведомлений";
     public static final String VIEW_ALL_INFO_BUTTON = "Просмотр всех уведомлений";
     public static final String CURRENT_DATE_BUTTON = "Выбрать текущие дату и время, как начало периода";
@@ -80,6 +85,10 @@ public class Constants {
     public static final String NOTIFICATIONS_NOT_FOUND_MESSAGE = "Подписок не найдено";
     public static final String UNSUBSCRIBE_SUCCESS_MESSAGE = "Вы успешно отписались от всех подписок";
     public static final String UNSUBSCRIBE_SUCCESS_CUSTOM_MESSAGE = "Вы успешно отписались от уведомления *%s*";
+
+    public static final String SELECT_NOTIFICATION_MESSAGE = "Пожалуйста, выберите уведомление для изменения";
+    public static final String SELECT_ACTION_MESSAGE = "Пожалуйста, выберите действие для изменения";
+    public static final String SUCCESS_CHANGING_MESSAGE = "Уведомление успешно изменено. " + MAIN_MENU_MESSAGE;
 
     public static final String NOTIFICATION_INFO = MEMO_EMOJI + " *%s*:\n" + "%s Статус: %s\n" + STOPWATCH_EMOJI +
                                                    " Время последнего напоминания: %s\n" + ALARM_CLOCK_EMOJI +

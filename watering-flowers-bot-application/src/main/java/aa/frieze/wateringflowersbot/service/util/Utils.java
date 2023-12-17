@@ -1,10 +1,20 @@
 package aa.frieze.wateringflowersbot.service.util;
 
+import com.google.common.base.Preconditions;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static aa.frieze.wateringflowersbot.service.util.Constants.START_DATE_ILLEGAL_WARNING_MESSAGE;
+import static aa.frieze.wateringflowersbot.service.util.Constants.START_DATE_WARNING_MESSAGE;
+import static aa.frieze.wateringflowersbot.service.util.Constants.dateFormatterInput;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
 
@@ -49,4 +59,19 @@ public class Utils {
         return Objects.isNull(text) ? null : LOWER_CAMEL.to(LOWER_UNDERSCORE, text);
     }
 
+    public static ZonedDateTime getZonedDateTimeAndCheck(SendMessage replyToUser, String startDateString,
+                                                         ZoneId userZone) {
+        try {
+            LocalDateTime startDateLocal = LocalDateTime.from(dateFormatterInput.parse(startDateString));
+            ZonedDateTime startDate = ZonedDateTime.of(startDateLocal, userZone);
+            Preconditions.checkState(ZonedDateTime.now().isBefore(startDate));
+            return startDate;
+        } catch (DateTimeParseException exception) {
+            replyToUser.setText(START_DATE_WARNING_MESSAGE);
+            return null;
+        } catch (IllegalStateException exception) {
+            replyToUser.setText(START_DATE_ILLEGAL_WARNING_MESSAGE);
+            return null;
+        }
+    }
 }

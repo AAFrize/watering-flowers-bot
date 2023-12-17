@@ -1,4 +1,4 @@
-package aa.frieze.wateringflowersbot.service.impl;
+package aa.frieze.wateringflowersbot.service.callback;
 
 import aa.frieze.wateringflowersbot.domain.enumeration.CallbackQueryType;
 import aa.frieze.wateringflowersbot.service.CallbackQueryHandler;

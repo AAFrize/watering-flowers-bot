@@ -1,4 +1,4 @@
-package aa.frieze.wateringflowersbot.service.impl;
+package aa.frieze.wateringflowersbot.service.callback;
 
 import aa.frieze.wateringflowersbot.domain.Notification;
 import aa.frieze.wateringflowersbot.domain.TelegramAccount;
@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-
-import static aa.frieze.wateringflowersbot.service.util.Constants.NOTIFICATION_INFO;
 
 @Service
 @RequiredArgsConstructor

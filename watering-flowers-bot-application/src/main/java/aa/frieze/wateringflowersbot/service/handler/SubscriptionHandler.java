@@ -12,8 +12,8 @@ import aa.frieze.wateringflowersbot.service.ReplyKeyboardService;
 import aa.frieze.wateringflowersbot.service.impl.AbstractTelegramCallbackBot;
 import aa.frieze.wateringflowersbot.service.json.JsonMappingService;
 import aa.frieze.wateringflowersbot.service.util.UnitParser;
+import aa.frieze.wateringflowersbot.service.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,10 +23,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Optional;
@@ -165,11 +163,11 @@ public class SubscriptionHandler implements InputMessageHandler {
         return replyKeyboardService.getMainMenuMessage(userId, replyToUser.getText());
     }
 
-
     private void saveUserStartDate(Long userId, SendMessage replyToUser, ZonedDateTime startDate,
                                    String startDateString) {
         if (Objects.isNull(startDate) && Objects.nonNull(startDateString)) {
-            startDate = getZonedDateTimeAndCheck(userId, replyToUser, startDateString);
+            startDate = Utils.getZonedDateTimeAndCheck(replyToUser, startDateString,
+                    dataCache.getUsersCurrentZone(userId));
         }
         if (Objects.isNull(startDate)) {
             return;
@@ -177,21 +175,6 @@ public class SubscriptionHandler implements InputMessageHandler {
         dataCache.setUsersStartDate(userId, startDate);
         dataCache.setUsersCurrentBotState(userId, BotState.WAITING_FOR_DURATION);
         replyToUser.setText(DURATION_WAITING_MESSAGE);
-    }
-
-    private ZonedDateTime getZonedDateTimeAndCheck(Long userId, SendMessage replyToUser, String startDateString) {
-        try {
-            LocalDateTime startDateLocal = LocalDateTime.from(dateFormatterInput.parse(startDateString));
-            ZonedDateTime startDate = ZonedDateTime.of(startDateLocal, dataCache.getUsersCurrentZone(userId));
-            Preconditions.checkState(ZonedDateTime.now().isBefore(startDate));
-            return startDate;
-        } catch (DateTimeParseException exception) {
-            replyToUser.setText(START_DATE_WARNING_MESSAGE);
-            return null;
-        } catch (IllegalStateException exception) {
-            replyToUser.setText(START_DATE_ILLEGAL_WARNING_MESSAGE);
-            return null;
-        }
     }
 
     @Override

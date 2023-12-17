@@ -35,6 +35,20 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
     }
 
     @Override
+    public SendMessage getSelectNotificationMessage(long chatId, String textMessage, List<String> buttons) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = getKeyboardWithOneButtonInRow(buttons);
+
+        return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
+    }
+
+    @Override
+    public SendMessage getSelectActionMessage(long chatId, String textMessage) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = getActionKeyboard();
+
+        return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
+    }
+
+    @Override
     public SendMessage getUnsubscribeMenuMessage(long chatId, String textMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = getUnsubscriptionKeyboard();
 
@@ -43,14 +57,14 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
 
     @Override
     public SendMessage getViewMenuMessage(long chatId, String textMessage) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = geViewKeyboard();
+        ReplyKeyboardMarkup replyKeyboardMarkup = getViewKeyboard();
 
         return createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
     }
 
     private ReplyKeyboardMarkup getMainMenuKeyboard() {
-        return getKeyboardWithOneButtonsInRow(List.of(SUBSCRIBE_BUTTON, UNSUBSCRIBE_BUTTON,
-                VIEW_INFO_BUTTON, CHANGE_TIMEZONE_BUTTON));
+        return getKeyboardWithOneButtonInRow(List.of(SUBSCRIBE_BUTTON, UNSUBSCRIBE_BUTTON,
+                VIEW_INFO_BUTTON, CHANGE_TIMEZONE_BUTTON, CHANGE_NOTIFICATION_BUTTON));
     }
 
     private ReplyKeyboardMarkup getStartDateReceiveKeyboard() {
@@ -58,14 +72,20 @@ public class ReplyKeyboardServiceImpl implements ReplyKeyboardService {
     }
 
     private ReplyKeyboardMarkup getUnsubscriptionKeyboard() {
-        return getKeyboardWithOneButtonsInRow(List.of(UNSUBSCRIBE_ALL_BUTTON, UNSUBSCRIBE_CUSTOM_BUTTON));
+        return getKeyboardWithOneButtonInRow(List.of(UNSUBSCRIBE_ALL_BUTTON, UNSUBSCRIBE_CUSTOM_BUTTON,
+                MAIN_MENU_BUTTON));
     }
 
-    private ReplyKeyboardMarkup geViewKeyboard() {
-        return getKeyboardWithOneButtonsInRow(List.of(VIEW_ACTUAL_INFO_BUTTON, VIEW_ALL_INFO_BUTTON));
+    private ReplyKeyboardMarkup getViewKeyboard() {
+        return getKeyboardWithOneButtonInRow(List.of(VIEW_ACTUAL_INFO_BUTTON, VIEW_ALL_INFO_BUTTON, MAIN_MENU_BUTTON));
     }
 
-    private ReplyKeyboardMarkup getKeyboardWithOneButtonsInRow(List<String> buttons) {
+    private ReplyKeyboardMarkup getActionKeyboard() {
+        return getKeyboardWithOneButtonInRow(List.of(CHANGE_TITLE_BUTTON, CHANGE_NEXT_NOTE_DATE_BUTTON,
+                CHANGE_DURATION_BUTTON, MAIN_MENU_BUTTON));
+    }
+
+    private ReplyKeyboardMarkup getKeyboardWithOneButtonInRow(List<String> buttons) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);

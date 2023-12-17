@@ -4,6 +4,7 @@ import aa.frieze.wateringflowersbot.domain.TelegramAccount;
 import aa.frieze.wateringflowersbot.domain.enumeration.BotState;
 import aa.frieze.wateringflowersbot.repository.TelegramAccountRepository;
 import aa.frieze.wateringflowersbot.service.DataCache;
+import aa.frieze.wateringflowersbot.service.callback.CallbackQueryFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,15 +56,21 @@ public class TelegramFacade {
         BotState botState;
         SendMessage replyMessage;
 
+        // todo mb replace with map
         switch (inputMsg) {
+            case MAIN_MENU_BUTTON -> botState = BotState.SHOW_MAIN_MENU;
             case SUBSCRIBE_BUTTON -> botState = BotState.SUBSCRIBE;
             case UNSUBSCRIBE_BUTTON -> botState = BotState.UNSUBSCRIBE;
             case VIEW_INFO_BUTTON -> botState = BotState.VIEW;
+            case CHANGE_NOTIFICATION_BUTTON -> botState = BotState.CHANGE_NOTIFICATION;
             case UNSUBSCRIBE_ALL_BUTTON -> botState = BotState.UNSUBSCRIBE_ALL;
             case UNSUBSCRIBE_CUSTOM_BUTTON -> botState = BotState.UNSUBSCRIBE_CUSTOM;
             case VIEW_ACTUAL_INFO_BUTTON -> botState = BotState.VIEW_ACTUAL;
             case VIEW_ALL_INFO_BUTTON -> botState = BotState.VIEW_ALL;
             case CHANGE_TIMEZONE_BUTTON -> botState = BotState.CHANGE_TIMEZONE;
+            case CHANGE_TITLE_BUTTON -> botState = BotState.CHANGE_TITLE;
+            case CHANGE_NEXT_NOTE_DATE_BUTTON -> botState = BotState.CHANGE_NEXT_DATE;
+            case CHANGE_DURATION_BUTTON -> botState = BotState.CHANGE_DURATION;
             default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
 

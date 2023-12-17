@@ -14,6 +14,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.CHANGE_DURATION;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.CHANGE_NEXT_DATE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.CHANGE_NOTIFICATION;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.CHANGE_TITLE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.SELECT_NOTIFICATION;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.SUBSCRIBE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.UNSUBSCRIBE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.UNSUBSCRIBE_ALL;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.UNSUBSCRIBE_CUSTOM;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.VIEW;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.VIEW_ACTUAL;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.VIEW_ALL;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.WAITING_FOR_DURATION;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.WAITING_FOR_START_DATE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.WAITING_FOR_TIMEZONE;
+import static aa.frieze.wateringflowersbot.domain.enumeration.BotState.WAITING_FOR_TITLE;
 import static aa.frieze.wateringflowersbot.service.util.Constants.HANDLER_NOT_FOUND_MESSAGE;
 
 @Slf4j
@@ -21,9 +37,27 @@ import static aa.frieze.wateringflowersbot.service.util.Constants.HANDLER_NOT_FO
 public class BotStateContext {
 
     private final Map<BotState, InputMessageHandler> messageHandlers = new HashMap<>();
+    private final Map<BotState, BotState> commonStates = new HashMap<>();
 
     public BotStateContext(List<InputMessageHandler> messageHandlers) {
         messageHandlers.forEach(handler -> this.messageHandlers.put(handler.getHandlerName(), handler));
+
+        // subscriptions states
+        commonStates.put(WAITING_FOR_TITLE, SUBSCRIBE);
+        commonStates.put(WAITING_FOR_TIMEZONE, SUBSCRIBE);
+        commonStates.put(WAITING_FOR_START_DATE, SUBSCRIBE);
+        commonStates.put(WAITING_FOR_DURATION, SUBSCRIBE);
+        // unsubscriptions states
+        commonStates.put(UNSUBSCRIBE_ALL, UNSUBSCRIBE);
+        commonStates.put(UNSUBSCRIBE_CUSTOM, UNSUBSCRIBE);
+        // view states
+        commonStates.put(VIEW_ALL, VIEW);
+        commonStates.put(VIEW_ACTUAL, VIEW);
+        // change states
+        commonStates.put(SELECT_NOTIFICATION, CHANGE_NOTIFICATION);
+        commonStates.put(CHANGE_TITLE, CHANGE_NOTIFICATION);
+        commonStates.put(CHANGE_NEXT_DATE, CHANGE_NOTIFICATION);
+        commonStates.put(CHANGE_DURATION, CHANGE_NOTIFICATION);
     }
 
     public SendMessage processInputMessage(BotState currentState, Message message,
@@ -41,45 +75,7 @@ public class BotStateContext {
     }
 
     private InputMessageHandler findMessageHandler(BotState currentState) {
-        if (isSubscriptionState(currentState)) {
-            return messageHandlers.get(BotState.SUBSCRIBE);
-        }
-        if (isUnsubscriptionState(currentState)) {
-            return messageHandlers.get(BotState.UNSUBSCRIBE);
-        }
-        if (isViewState(currentState)) {
-            return messageHandlers.get(BotState.VIEW);
-        }
-        return messageHandlers.get(currentState);
-    }
-
-    private boolean isSubscriptionState(BotState currentState) {
-        return switch (currentState) {
-            case SUBSCRIBE,
-                    WAITING_FOR_TITLE,
-                    WAITING_FOR_TIMEZONE,
-                    WAITING_FOR_START_DATE,
-                    WAITING_FOR_DURATION -> true;
-            default -> false;
-        };
-    }
-
-    private boolean isUnsubscriptionState(BotState currentState) {
-        return switch (currentState) {
-            case UNSUBSCRIBE,
-                    UNSUBSCRIBE_ALL,
-                    UNSUBSCRIBE_CUSTOM -> true;
-            default -> false;
-        };
-    }
-
-    private boolean isViewState(BotState currentState) {
-        return switch (currentState) {
-            case VIEW,
-                    VIEW_ALL,
-                    VIEW_ACTUAL -> true;
-            default -> false;
-        };
+        return messageHandlers.get(commonStates.getOrDefault(currentState, currentState));
     }
 
 }
