@@ -152,8 +152,8 @@ public class ChangeNotificationHandler implements InputMessageHandler {
             return replyToUser;
         }
 
-        ZonedDateTime startDate = Utils.getZonedDateTimeAndCheck(replyToUser, newDate,
-                dataCache.getUsersCurrentZone(userId));
+        Settings settings = mapper.treeToValue(telegramAccount.getSettings(), Settings.class);
+        ZonedDateTime startDate = Utils.getZonedDateTimeAndCheck(replyToUser, newDate, settings.getTimeZone());
         if (Objects.isNull(startDate)) {
             return replyToUser;
         }
