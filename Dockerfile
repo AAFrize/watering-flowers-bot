@@ -1,6 +1,6 @@
 ###############################################################################
 
-FROM maven:3.9.2-openjdk-17 as build
+FROM maven:3.9.6-sapmachine-17 as build
 COPY . /build
 
 RUN cd /build && \
